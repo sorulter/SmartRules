@@ -3,6 +3,7 @@ package main
 import (
 	"errors"
 	"fmt"
+	"html/template"
 	"net/http"
 	"os"
 	"os/signal"
@@ -53,6 +54,12 @@ func run() {
 		if err != nil {
 			c.String(http.StatusBadRequest, err.Error())
 			return
+		}
+
+		profile := getProfile(id)
+
+		if profile.Global {
+			c.HTML(http.StatusOK, "global.tmpl.js", gin.H{"server": "127.1:8888"})
 		}
 
 	})
