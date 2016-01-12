@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"html/template"
@@ -60,6 +61,22 @@ func run() {
 
 		if profile.Global {
 			c.HTML(http.StatusOK, "global.tmpl.js", gin.H{"server": "127.1:8888"})
+		}
+
+		if !profile.Global && profile.UserId != 0 {
+			list := func() (data []byte) {
+				var rules []string
+				json.Unmarshal([]byte(profile.Rules), &rules)
+				rules = append(rules, config.DefaultList...)
+				data, _ = json.Marshal(rules)
+
+				return
+			}()
+
+			c.HTML(http.StatusOK, "pac.tmpl.js", gin.H{
+				"server": "127.1:8888",
+				"list":   template.HTML(string(list)),
+			})
 		}
 
 	})
