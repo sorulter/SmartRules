@@ -5,6 +5,8 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
+
+	"github.com/gin-gonic/gin"
 )
 
 var (
@@ -19,6 +21,8 @@ func init() {
 
 func main() {
 
+	go run()
+
 	// Main loop
 	sig := make(chan os.Signal)
 	signal.Notify(sig, syscall.SIGINT, syscall.SIGTERM)
@@ -31,4 +35,15 @@ forever:
 			break forever
 		}
 	}
+}
+
+func run() {
+	r := gin.Default()
+	r.LoadHTMLGlob("etc/*")
+	r.GET("/v1/*hash", func(c *gin.Context) {
+
+	})
+
+	// listen and serve
+	r.Run(config.HttpHostPort)
 }
