@@ -58,9 +58,10 @@ func run() {
 		}
 
 		profile := getProfile(id)
+		server := fmt.Sprintf("%s.%s:%d", profile.NodeName, config.BaseDomain, profile.Port)
 
 		if profile.Global {
-			c.HTML(http.StatusOK, "global.tmpl.js", gin.H{"server": "127.1:8888"})
+			c.HTML(http.StatusOK, "global.tmpl.js", gin.H{"server": server})
 		}
 
 		if !profile.Global && profile.UserId != 0 {
@@ -74,7 +75,7 @@ func run() {
 			}()
 
 			c.HTML(http.StatusOK, "pac.tmpl.js", gin.H{
-				"server": "127.1:8888",
+				"server": server,
 				"list":   template.HTML(string(list)),
 			})
 		}
