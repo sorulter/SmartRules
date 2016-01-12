@@ -10,6 +10,14 @@ import (
 	"github.com/lessos/lessgo/logger"
 )
 
+type Profile struct {
+	NodeName string
+	Port     int
+	UserId   int
+	Rules    string
+	Global   bool
+}
+
 var (
 	db gorm.DB
 )
@@ -30,4 +38,12 @@ func initDb() {
 	db.DB().SetMaxOpenConns(200)
 	// db.LogMode(true)
 
+}
+
+func getProfile(id int) (profile Profile) {
+	db.Table("ports").Select(
+		[]string{"`port`", "ports.user_id", "pacs.`global`", "pacs.rules"}).Joins(
+		"INNER JOIN pacs ON pacs.user_id = ports.user_id").Where("ports.user_id = ? ", id).Find(&profile)
+	fmt.Printf("pac: %v\n", profile)
+	return
 }
