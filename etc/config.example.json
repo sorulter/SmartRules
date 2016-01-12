@@ -1,0 +1,12 @@
+{
+	"http_host_port": ":8080",
+    "default_list": [
+        "baidu.com",
+        "zhihu.com"
+    ],
+    "hashids": {
+        "min_len": 10,
+        "salt": "the_salt"
+    },
+    "DSN": "user:password@tcp(host:port)/database?charset=utf8&parseTime=True"
+}
