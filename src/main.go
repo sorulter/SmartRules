@@ -1,15 +1,19 @@
 package main
 
 import (
+	"errors"
 	"fmt"
+	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
 
 	"github.com/gin-gonic/gin"
+	"github.com/speps/go-hashids"
 )
 
 var (
+	hd  = hashids.NewData()
 	err error
 	id  int
 )
@@ -17,6 +21,9 @@ var (
 func init() {
 	initConfig()
 	initDb()
+
+	hd.MinLength = config.Hashids.MinLen
+	hd.Salt = config.Hashids.Salt
 }
 
 func main() {
@@ -41,9 +48,28 @@ func run() {
 	r := gin.Default()
 	r.LoadHTMLGlob("etc/*")
 	r.GET("/v1/*hash", func(c *gin.Context) {
+		hash := c.Param("hash")
+		id, err = parseHash(hash[1:])
+		if err != nil {
+			c.String(http.StatusBadRequest, err.Error())
+			return
+		}
 
 	})
 
 	// listen and serve
 	r.Run(config.HttpHostPort)
+}
+
+func parseHash(hash string) (int, error) {
+	if len(hash) < config.Hashids.MinLen {
+		return 0, errors.New("illegal user\n")
+	}
+
+	id := hashids.NewWithData(hd).Decode(hash)
+	if len(id) != 1 {
+		return 0, errors.New("illegal user\n")
+	}
+
+	return id[0], nil
 }
