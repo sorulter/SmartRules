@@ -1,4 +1,5 @@
 {
+    "base_domain": "base.example.com",
 	"http_host_port": ":8080",
     "default_list": [
         "baidu.com",

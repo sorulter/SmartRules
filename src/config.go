@@ -6,6 +6,7 @@ import (
 
 var (
 	config struct {
+		BaseDomain   string   `json:"base_domain"`
 		HttpHostPort string   `json:"http_host_port"`
 		DefaultList  []string `json:"default_list"`
 		DSN          string
