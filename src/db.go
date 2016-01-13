@@ -44,6 +44,5 @@ func getProfile(id int) (profile Profile) {
 	db.Table("ports").Select(
 		[]string{"`port`", "node_name", "ports.user_id", "pacs.`global`", "pacs.rules"}).Joins(
 		"INNER JOIN pacs ON pacs.user_id = ports.user_id").Where("ports.user_id = ? ", id).Find(&profile)
-	fmt.Printf("pac: %v\n", profile)
 	return
 }
