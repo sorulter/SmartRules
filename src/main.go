@@ -66,9 +66,11 @@ func run() {
 
 		if !profile.Global && profile.UserId != 0 {
 			list := func() (data []byte) {
-				var rules []string
+				var rules map[string]int
 				json.Unmarshal([]byte(profile.Rules), &rules)
-				rules = append(rules, config.DefaultList...)
+				for k, v := range config.DefaultList {
+					rules[k] = v
+				}
 				data, _ = json.Marshal(rules)
 
 				return
