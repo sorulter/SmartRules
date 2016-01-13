@@ -2,6 +2,7 @@ package main
 
 import (
 	c "github.com/gocubes/config"
+	"log"
 )
 
 var (
@@ -18,6 +19,9 @@ var (
 )
 
 func initConfig() {
-	provider, _ := c.New("etc/config.json", "json")
+	provider, er := c.New(prefix+"etc/config.json", "json")
+	if er != nil {
+		log.Fatalf("read config file error:%s\n", er.Error())
+	}
 	provider.Get(&config)
 }
