@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"errors"
+	"flag"
 	"fmt"
 	"html/template"
 	"net/http"
@@ -18,9 +19,13 @@ var (
 	hd  = hashids.NewData()
 	err error
 	id  int
+
+	prefix string
 )
 
 func init() {
+	flag.StringVar(&prefix, "prefix", "./", "prefix path")
+	flag.Parse()
 	initConfig()
 	initDb()
 
@@ -48,7 +53,7 @@ forever:
 
 func run() {
 	r := gin.Default()
-	r.LoadHTMLGlob("etc/*")
+	r.LoadHTMLGlob(prefix + "etc/*")
 	r.GET("/v1/*hash", func(c *gin.Context) {
 		hash := c.Param("hash")
 		id, err = parseHash(hash[1:])
