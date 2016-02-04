@@ -3,6 +3,7 @@ package main
 import (
 	c "github.com/gocubes/config"
 	"log"
+	"syscall"
 )
 
 var (
@@ -24,4 +25,5 @@ func initConfig() {
 		log.Fatalf("read config file error:%s\n", er.Error())
 	}
 	provider.Get(&config)
+	provider.ReloadOn(&config, syscall.SIGUSR1)
 }
