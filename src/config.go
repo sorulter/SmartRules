@@ -16,6 +16,7 @@ var (
 			Salt   string `json:"salt"`
 			MinLen int    `json:"min_len"`
 		}
+		CORS []string `json:"cros"`
 	}
 )
 
