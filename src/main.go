@@ -89,6 +89,18 @@ func run() {
 
 	})
 
+	r.GET("/ping", func(c *gin.Context) {
+		var origin = c.Request.Header.Get("Origin")
+		for _, cros := range config.CORS {
+			if cros == origin {
+				c.Header("Access-Control-Allow-Origin", origin)
+				break
+			}
+		}
+
+		c.String(http.StatusOK, "pong")
+	})
+
 	// listen and serve
 	r.Run(config.HttpHostPort)
 }
