@@ -5,6 +5,9 @@
         "baidu.com",
         "zhihu.com"
     ],
+    "cros": [
+        "http://example.com",
+    ],
     "hashids": {
         "min_len": 10,
         "salt": "the_salt"
