@@ -34,6 +34,7 @@ func init() {
 }
 
 func main() {
+	defer db.Close()
 
 	go run()
 
