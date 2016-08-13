@@ -21,7 +21,7 @@ function FindProxyForURL(url, host) {
     var pos;
     do {
         if (domains.hasOwnProperty(host)) {
-            return domains[host] ? proxy : direct;
+            return domains[host] ? httpProxy : direct;
         }
         pos = host.indexOf(".") + 1;
         host = host.slice(pos);
