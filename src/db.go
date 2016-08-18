@@ -34,8 +34,8 @@ func initDb() {
 		time.Sleep(1e9)
 		os.Exit(-1)
 	}
-	db.DB().SetMaxIdleConns(50)
-	db.DB().SetMaxOpenConns(200)
+	db.DB().SetMaxIdleConns(2)
+	db.DB().SetMaxOpenConns(10)
 	// db.LogMode(true)
 
 }
